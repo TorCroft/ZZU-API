@@ -6,6 +6,13 @@ __pycache__/
 # C extensions
 *.so
 
+# Custom
+logs
+test
+config.json
+pytest/
+pytest_*.*
+
 # Distribution / packaging
 .Python
 build/
