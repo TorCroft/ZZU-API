@@ -3,7 +3,7 @@
 
 ## 功能
 * 教务系统：成绩查询、课表查询、期末考试查询、空教室查询。
-* 校园卡：余额查询、卡对卡转账。
+* 校园卡：校园卡余额查询、电费余额查询、卡对卡转账。
 * 其余功能待添加 ...
 
 ## 配置文件使用
@@ -25,7 +25,7 @@
 查询空教室。
 ``` Python
 from src.utils import find_available_classroom
-from src.core import ZZU_Class_Room
+from src.api import ZZU_Class_Room
 
 test = ZZU_Class_Room()
 
@@ -50,7 +50,7 @@ else:
     print(f"今日在{target_floor}楼，没有第{target_periods}节课都是空闲的教室。")
 ```
 
-查询校园卡余额。
+查询校园卡余额和宿舍电费余额。
 ``` Python
 from src.api import ZZU_API
 
@@ -61,8 +61,36 @@ test.login()
 test.get_jid_and_tid()
 test.get_ecard_token()
 
-# 打印出校园卡余额
-print(test.get_balance())
+# 出校园卡余额
+balance_1 = test.get_balance()
+
+# 电费余额
+balance_2 = test.get_energy_balance()
+
+# 打印
+print(balance_1， balance_2)
+```
+
+校园卡之间转账。
+``` Python
+from src.api import ZZU_API
+
+test = ZZU_API()
+
+# 获取必要Token
+test.login()
+test.get_jid_and_tid()
+test.get_ecard_token()
+
+
+# `000000000000` 给 `111111111111` 转账1元，卡密码是`123456`
+test.c2c_transaction(
+    from_id=000000000000,
+    to_id=111111111111,
+    amount=1,
+    card_password=123456
+)
+
 ```
 ## 注意
 在获取到 `UserToken` 之后，`config.json`中的值会随之更新，下次再调用时无需再次调用`login()`方法获取，可以直接使用。 `ECardAccessToken` 在不刷新的情况下有效期是3600秒。

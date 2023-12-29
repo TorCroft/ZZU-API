@@ -1,15 +1,15 @@
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timezone, timedelta, UTC
 from base64 import b64decode
 import json
 
 # fmt: off
 def utc_plus_8() -> datetime:
-    return datetime.utcnow().replace(tzinfo=timezone.utc).astimezone(timezone(timedelta(hours=8)))
+    return datetime.now(UTC).astimezone(timezone(timedelta(hours=8)))
 # fmt: on
 
 
 def timestamp_13_digit() -> int:
-    return int(datetime.timestamp(datetime.now()) * 1000)
+    return int(datetime.timestamp(utc_plus_8()) * 1000)
 
 
 def get_today_date_str():
@@ -32,7 +32,7 @@ def find_available_classroom(data, floor: str, periods: list[int]):
     """
     available_classrooms = []
     for classroom in data:
-        if classroom["floor"] == floor:
+        if int(classroom["floor"]) == int(floor):
             # Check if target period is available, 0 for available, 1 for occupied.
             occupy_units = classroom["occupy_units"]
             is_available = True

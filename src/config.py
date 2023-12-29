@@ -17,7 +17,8 @@ class Config:
         self.path = "config.json"
         if not os.path.exists(self.path):
             with open(self.path, "w", encoding="utf-8") as f:
-                json.dump(CONFIG_TEMPLATE, f, ensure_ascii=False)
+                json.dump(CONFIG_TEMPLATE, f, ensure_ascii=False, indent=4)
+            raise FileNotFoundError()
         self.load_config()
 
     def load_config(self):
