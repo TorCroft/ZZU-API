@@ -94,7 +94,9 @@ class ZZU_API:
     def get_ecard_token(self):
         path = "/server/auth/getToken"
         body = {"tid": config.Tid}
-        response: dict = post(url=self.ecard_host + path, headers=self.__headers_for_ecard, json=body).json()
+        headers = self.__headers_for_ecard
+        headers["Authorization"] = ""
+        response: dict = post(url=self.ecard_host + path, headers=headers, json=body).json()
         if not response.get("success"):
             raise ZZU_Login_Error(response.get("message"))
         config.RefreshToken = response["resultData"]["refreshToken"]
