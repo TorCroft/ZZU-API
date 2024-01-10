@@ -31,6 +31,7 @@ from src.api import ZZU_Class_Room
 test = ZZU_Class_Room()
 
 # 获取必要Token
+test.login()
 test.get_jw_token()
 
 # 获取当日北1的教室占用情况
@@ -69,7 +70,7 @@ balance_1 = test.get_balance()
 balance_2 = test.get_energy_balance()
 
 # 打印
-print(balance_1， balance_2)
+print(balance_1, balance_2)
 ```
 
 校园卡之间转账。
@@ -91,7 +92,6 @@ test.c2c_transaction(
     amount=1,
     card_password=123456
 )
-
 ```
 ## 注意
 在获取到 `UserToken` 之后，`config.json`中的值会随之更新，下次再调用时无需再次调用`login()`方法获取，可以直接使用。 `ECardAccessToken` 在不刷新的情况下有效期是3600秒。
